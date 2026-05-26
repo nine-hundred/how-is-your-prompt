@@ -1,0 +1,58 @@
+# Example evaluation cases.
+# Run: python -m prompt_eval examples/cases.yaml
+#
+# Each case calls the LLM once with `prompt`, then runs every entry in
+# `eval_criteria` against the response. A case passes when all criteria pass.
+
+cases:
+  - name: sentiment_classifier_json_shape
+    provider: openrouter
+    model: openai/gpt-4o-mini
+    prompt: |
+      Classify the sentiment of the review below.
+      Return ONLY JSON: {"sentiment": "positive" | "negative" | "neutral", "confidence": 0.0 - 1.0}
+
+      Review: "The food arrived cold and the staff was rude."
+    eval_criteria:
+      - type: json_field
+        field: sentiment
+        equals: negative
+      - type: range
+        field: confidence
+        min: 0.0
+        max: 1.0
+
+  - name: customer_reply_tone
+    provider: openrouter
+    model: openai/gpt-4o-mini
+    prompt: |
+      Write a short, polite reply (under 300 characters) to a customer
+      complaining about a late delivery. Apologize and offer a 10% coupon.
+      Do not use the words "unfortunately" or "policy".
+    eval_criteria:
+      - type: not_contains
+        values: ["unfortunately", "policy"]
+      - type: contains
+        values: ["10%"]
+      - type: length
+        max: 300
+
+  - name: code_review_quality_llm_judge
+    provider: openrouter
+    model: openai/gpt-4o-mini
+    prompt: |
+      Review the following Python function and suggest improvements.
+
+      def add(a, b):
+          return a + b
+    eval_criteria:
+      - type: llm_judge
+        judge_provider: openrouter
+        judge_model: openai/gpt-4o-mini
+        min_score: 70
+        repeat: 2
+        rubric: |
+          Score 0-100 on:
+          - Identifies missing type hints (40 pts)
+          - Mentions docstring or input validation (30 pts)
+          - Constructive tone, not nitpicky (30 pts)

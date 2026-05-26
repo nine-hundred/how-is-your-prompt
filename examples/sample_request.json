@@ -1,0 +1,9 @@
+{
+  "prompt": "Classify sentiment. Return ONLY JSON: {\"sentiment\": \"positive\"|\"negative\"|\"neutral\", \"confidence\": 0.0-1.0}\n\nReview: \"The food arrived cold and the staff was rude.\"",
+  "provider": "openrouter",
+  "model": "openai/gpt-4o-mini",
+  "eval_criteria": [
+    { "type": "json_field", "field": "sentiment", "equals": "negative" },
+    { "type": "range", "field": "confidence", "min": 0.0, "max": 1.0 }
+  ]
+}
