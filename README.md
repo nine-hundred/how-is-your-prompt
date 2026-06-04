@@ -1,4 +1,4 @@
-# prompt-eval
+# how-is-your-prompt
 
 ## Overview
 A small declarative framework for evaluating LLM prompts with deterministic assertions and LLM-as-Judge scoring. The code is extracted from an internal talk titled **"여러분의 프롬프트는 안녕하신가요?"** (*How is your prompt doing?*) and cleaned up for public use.
@@ -138,6 +138,3 @@ One of the closing slides — practical tips for writing rubrics and choosing a 
 ## References
 - **[LLM-as-a-Judge: A Survey (arXiv:2411.15594)](https://arxiv.org/pdf/2411.15594)** - survey of the judge pattern
 - **[promptfoo](https://www.promptfoo.dev/)** / **[deepeval](https://github.com/confident-ai/deepeval)** - larger frameworks tackling the same problem
-
-## License
-MIT — see [LICENSE](./LICENSE).
